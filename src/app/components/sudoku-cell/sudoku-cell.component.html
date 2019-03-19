@@ -1,4 +1,16 @@
 <div class="sudoku-cell"
+	 (mousedown)="cellClickHandler()"
 	[ngClass]="{'sudoku-cell_predefined': sudokuCell.isPredefined}">
-	{{sudokuCell.value ? sudokuCell.value : ''}}
+	<ng-container *ngIf="sudokuCell.values.length === 1">
+		{{sudokuCell.values[0]}}
+	</ng-container>
+	<div class="sudoku-cell__possible" *ngIf="sudokuCell.values.length > 1">
+		<div *ngFor="let value of [1,2,3,4,5,6,7,8,9]"
+			class="sudoku-cell__possible-value sudoku-cell__possible-value_{{value}}">
+			<div class="sudoku-cell__possible-value-text"
+				*ngIf="sudokuCell.values.includes(value)">
+				{{value}}
+			</div>
+		</div>
+	</div>
 </div>

@@ -1,20 +1,29 @@
 <div class="actions-panel">
 	<div class="actions-panel__reset">
-		<button class="actions-panel__button actions-panel__button_reset">
+		<button class="actions-panel__button actions-panel__button_reset"
+			(mousedown)="undoClickHandler()">
 			<img src="./assets/undo.svg">
 		</button>
-		<button class="actions-panel__button actions-panel__button_reset">
+		<button class="actions-panel__button actions-panel__button_reset"
+			(mousedown)="redoClickHandler()">
 			<img src="./assets/redo.svg">
 		</button>
 	</div>
 	<div class="actions-panel__numbers">
 		<button *ngFor="let n of numbers"
 			class="actions-panel__button actions-panel__button_number"
-			[ngClass]="{'actions-panel__button_active': false}"
-			(click)="numberClickHandler(n)">{{n}}</button>
+			[ngClass]="{'actions-panel__button_active': (selectedNumbers | async).includes(n)}"
+			(mousedown)="numberClickHandler(n)">
+			{{n}}
+		</button>
 	</div>
 	<div class="actions-panel__cancel">
-		<button class="actions-panel__button actions-panel__button_cancel">
+		<button class="actions-panel__button actions-panel__button_cancel"
+			(mousedown)="invertClickHandler()">
+			Inv
+		</button>
+		<button class="actions-panel__button actions-panel__button_cancel"
+			(mousedown)="cancelClickHandler()">
 			<img src="./assets/cancel.svg">
 		</button>
 	</div>

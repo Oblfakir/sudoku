@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {SudokuCellModel} from '../../models/sudoku-cell.model';
 
 @Component({
@@ -8,4 +8,9 @@ import {SudokuCellModel} from '../../models/sudoku-cell.model';
 })
 export class SudokuCellComponent {
 	@Input() public sudokuCell: SudokuCellModel;
+	@Output() public clicked: EventEmitter<SudokuCellModel> = new EventEmitter<SudokuCellModel>();
+
+	public cellClickHandler(): void {
+		this.clicked.emit(this.sudokuCell);
+	}
 }
