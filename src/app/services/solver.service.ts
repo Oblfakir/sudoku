@@ -68,7 +68,7 @@ export class SolverService {
 	}
 
 	private search(h, s, callback) {
-		if (h.R == h) {
+		if (h.R === h) {
 			const solution = new Array(81);
 			s.map(c => {
 				const a = c.V.split(':');
@@ -80,14 +80,14 @@ export class SolverService {
 		} else {
 			const c = this.chooseColumn(h);
 			this.cover(c);
-			for (let r = c.D; r != c; r = r.D) {
+			for (let r = c.D; r !== c; r = r.D) {
 				s.push(r);
-				for (let j = r.R; r != j; j = j.R) {
+				for (let j = r.R; r !== j; j = j.R) {
 					this.cover(j.H);
 				}
 				this.search(h, s, callback);
 				r = s.pop();
-				for (let j = r.R; j != r; j = j.R) {
+				for (let j = r.R; j !== r; j = j.R) {
 					this.uncover(j.H);
 				}
 			}
@@ -98,7 +98,7 @@ export class SolverService {
 	private chooseColumn(h) {
 		let s = Number.POSITIVE_INFINITY;
 		let c = h;
-		for (let j = h.R; j != h; j = j.R) {
+		for (let j = h.R; j !== h; j = j.R) {
 			if (j.S < s) {
 				c = j;
 				s = j.S;
@@ -110,8 +110,8 @@ export class SolverService {
 	private cover(c) {
 		c.L.R = c.R;
 		c.R.L = c.L;
-		for (let i = c.D; i != c; i = i.D) {
-			for (let j = i.R; j != i; j = j.R) {
+		for (let i = c.D; i !== c; i = i.D) {
+			for (let j = i.R; j !== i; j = j.R) {
 				j.U.D = j.D;
 				j.D.U = j.U;
 				j.H.S = j.H.S - 1;
@@ -120,8 +120,8 @@ export class SolverService {
 	}
 
 	private uncover(c) {
-		for (let i = c.U; i != c; i = i.U) {
-			for (let j = i.L; i != j; j = j.L) {
+		for (let i = c.U; i !== c; i = i.U) {
+			for (let j = i.L; i !== j; j = j.L) {
 				j.H.S = j.H.S + 1;
 				j.U.D = j;
 				j.D.U = j;
@@ -171,22 +171,16 @@ export class SolverService {
 			g2D[i].forEach(num => {
 				const id = `${i}:${num}`;
 				const candIdx = num - 1;
-
 				const A = headRow[i];
 				const B = headRow[numCells + candIdx + (ri * U)];
 				const C = headRow[(numCells * 2) + candIdx + (ci * U)];
 				const D = headRow[(numCells * 3) + candIdx + (bi * U)];
-
 				const rcc = this.addBelow(A.U, new DoX(id, A));
-
 				const rnc = this.addBelow(B.U, this.addRight(rcc, new DoX(id, B)));
-
 				const cnc = this.addBelow(C.U, this.addRight(rnc, new DoX(id, C)));
-
 				this.addBelow(D.U, this.addRight(cnc, new DoX(id, D)));
 			});
 		}
 		this.search(H, [], (sol) => callback(sol));
 	}
-
 }
