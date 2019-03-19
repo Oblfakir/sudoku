@@ -7,6 +7,7 @@ import {SudokuComponent} from './components/sudoku/sudoku.component';
 import {GameComponent} from './containers/game/game.component';
 import { StartComponent } from './containers/start/start.component';
 import { SudokuCellComponent } from './components/sudoku-cell/sudoku-cell.component';
+import { ActionsPanelComponent } from './components/actions-panel/actions-panel.component';
 
 @NgModule({
 	declarations: [
@@ -14,7 +15,8 @@ import { SudokuCellComponent } from './components/sudoku-cell/sudoku-cell.compon
 		SudokuComponent,
 		GameComponent,
 		StartComponent,
-		SudokuCellComponent
+		SudokuCellComponent,
+		ActionsPanelComponent
 	],
 	imports: [
 		BrowserModule,

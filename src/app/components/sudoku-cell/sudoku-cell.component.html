@@ -1,3 +1,4 @@
-<div class="sudoku-cell">
+<div class="sudoku-cell"
+	[ngClass]="{'sudoku-cell_predefined': sudokuCell.isPredefined}">
 	{{sudokuCell.value ? sudokuCell.value : ''}}
 </div>

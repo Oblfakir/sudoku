@@ -22,12 +22,13 @@ export class GameComponent implements OnInit {
 		this.sudokuService.getNewSudoku(Difficulty.Easy).then((result) => {
 			if (result) {
 				const sudoku = [];
+				const { solved, unsolved } = result;
 
 				for (let i = 0; i < 9; i++) {
 					const subarr = [];
 
 					for (let j = 0; j < 9; j++) {
-						subarr.push(new SudokuCellModel(j, i, result.unsolved[i][j], result.solved[i][j]));
+						subarr.push(new SudokuCellModel(j, i, unsolved[i][j], solved[i][j], unsolved[i][j] === solved[i][j]));
 					}
 
 					sudoku.push(subarr);
