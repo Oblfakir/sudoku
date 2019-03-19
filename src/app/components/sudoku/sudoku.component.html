@@ -5,7 +5,7 @@
 	<div class="sudoku__vertical-line sudoku__vertical-line_2"></div>
 	<div class="sudoku__row" *ngFor="let row of sudoku">
 		<div class="sudoku__cell" *ngFor="let cell of row">
-			{{cell.value ? cell.value : ''}}
+			<app-sudoku-cell [sudokuCell]="cell"></app-sudoku-cell>
 		</div>
 	</div>
 </div>

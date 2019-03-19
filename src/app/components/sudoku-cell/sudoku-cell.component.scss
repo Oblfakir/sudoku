@@ -1,0 +1,12 @@
+.sudoku-cell {
+	width: 60px;
+	height: 60px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 24px;
+	font-weight: 700;
+	color: rgb(74, 74, 74);
+	border: 1px solid lightgray;
+	margin: 1px;
+}

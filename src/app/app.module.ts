@@ -6,13 +6,15 @@ import {AppComponent} from './app.component';
 import {SudokuComponent} from './components/sudoku/sudoku.component';
 import {GameComponent} from './containers/game/game.component';
 import { StartComponent } from './containers/start/start.component';
+import { SudokuCellComponent } from './components/sudoku-cell/sudoku-cell.component';
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		SudokuComponent,
 		GameComponent,
-		StartComponent
+		StartComponent,
+		SudokuCellComponent
 	],
 	imports: [
 		BrowserModule,
