@@ -42,7 +42,7 @@ export class SolverService {
 					const subarr = [];
 
 					for (let j = 0; j < 9; j++) {
-						subarr.push(r[i * 9 + j]);
+						subarr.push(Number(r[i * 9 + j]));
 					}
 
 					result.push(subarr);

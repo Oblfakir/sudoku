@@ -1,18 +1,17 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {GeneratorService} from '../../services/generator.service';
-import {SolverService} from '../../services/solver.service';
+import {Component, OnInit} from '@angular/core';
+import {SudokuService} from '../../services';
+import {Difficulty} from '../../constants/difficulty';
 
 @Component({
 	selector: 'app-game',
 	templateUrl: './game.component.html',
-	styleUrls: ['./game.component.scss'],
-	changeDetection: ChangeDetectionStrategy.OnPush
+	styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit {
 	public sudoku: number[][];
+	private _solvedSudoku: number[][];
 
-	constructor(private generatorService: GeneratorService,
-				private solverService: SolverService) {
+	constructor(private sudokuService: SudokuService) {
 	}
 
 	ngOnInit() {
@@ -20,21 +19,11 @@ export class GameComponent implements OnInit {
 	}
 
 	public generateSudoku(): void {
-		this.sudoku = this.generatorService.generateSudoku();
-		const sudoku = '819..5.....2...75..371.4.6.4..59.1..7..3.8..2..3.62..7.5.7.921..64...9.....2..438'
-			.split('.').join('0');
-		const result = [];
-
-		for (let i = 0; i < 9; i++) {
-			const subarr = [];
-
-			for (let j = 0; j < 9; j++) {
-				subarr.push(sudoku[i * 9 + j]);
+		this.sudokuService.getNewSudoku(Difficulty.Easy).then((result) => {
+			if (result) {
+				this.sudoku = result.unsolved;
+				this._solvedSudoku = result.solved;
 			}
-
-			result.push(subarr);
-		}
-
-		this.solverService.solveSudoku(result).then(console.log);
+		});
 	}
 }

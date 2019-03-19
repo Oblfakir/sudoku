@@ -1,7 +1,7 @@
 <div class="sudoku">
 	<div class="sudoku__row" *ngFor="let row of sudoku">
 		<div class="sudoku__column" *ngFor="let number of row">
-			{{number}}
+			{{number ? number : ''}}
 		</div>
 	</div>
 </div>
