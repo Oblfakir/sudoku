@@ -1,12 +1,13 @@
 .sudoku {
 	display: flex;
 	flex-direction: column;
+	position: relative;
 
 	&__row {
 		display: flex;
 	}
 
-	&__column {
+	&__cell {
 		width: 60px;
 		height: 60px;
 		display: flex;
@@ -16,5 +17,38 @@
 		font-weight: 700;
 		color: rgb(74, 74, 74);
 		border: 1px solid lightgray;
+		margin: 1px;
+	}
+
+	&__horizontal-line {
+		position: absolute;
+		width: 100%;
+		height: 2px;
+		left: 0;
+		background: rgba(gray, 0.3);
+
+		&_1 {
+			top: 191px;
+		}
+
+		&_2 {
+			top: 383px;
+		}
+	}
+
+	&__vertical-line {
+		position: absolute;
+		width: 2px;
+		height: 100%;
+		top: 0;
+		background: rgba(gray, 0.3);
+
+		&_1 {
+			left: 191px;
+		}
+
+		&_2 {
+			left: 383px;
+		}
 	}
 }

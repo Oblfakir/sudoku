@@ -1,7 +1,11 @@
 <div class="sudoku">
+	<div class="sudoku__horizontal-line sudoku__horizontal-line_1"></div>
+	<div class="sudoku__horizontal-line sudoku__horizontal-line_2"></div>
+	<div class="sudoku__vertical-line sudoku__vertical-line_1"></div>
+	<div class="sudoku__vertical-line sudoku__vertical-line_2"></div>
 	<div class="sudoku__row" *ngFor="let row of sudoku">
-		<div class="sudoku__column" *ngFor="let number of row">
-			{{number ? number : ''}}
+		<div class="sudoku__cell" *ngFor="let cell of row">
+			{{cell.value ? cell.value : ''}}
 		</div>
 	</div>
 </div>
