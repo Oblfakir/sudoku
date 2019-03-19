@@ -1,11 +1,49 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
+import {SudokuCellModel} from '../models/sudoku-cell.model';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class GameService {
+	private _currentGameState: BehaviorSubject<SudokuCellModel[][]> = new BehaviorSubject<SudokuCellModel[][]>(null);
+	private _undoHistory: SudokuCellModel[][][] = [];
+	private _redoHistory: SudokuCellModel[][][] = [];
 	private _selectedNumbers: BehaviorSubject<number[]> = new BehaviorSubject<number[]>([]);
+
+	public get currentGameState(): Observable<SudokuCellModel[][]> {
+		return this._currentGameState.asObservable();
+	}
+
+	public getCurrentGameState(): SudokuCellModel[][] {
+		return this._currentGameState.getValue();
+	}
+
+	public get isUndoAvailable(): boolean {
+		return this._undoHistory.length > 0;
+	}
+
+	public get isRedoAvailable(): boolean {
+		return this._redoHistory.length > 0;
+	}
+
+	public setNewGameState(state: SudokuCellModel[][]): void {
+		const newState = JSON.parse(JSON.stringify(state));
+		this._undoHistory.push(newState);
+		this._currentGameState.next(newState);
+	}
+
+	public undo(): void {
+		const state = this._undoHistory.pop();
+		this._redoHistory.push(state);
+		this._currentGameState.next(state);
+	}
+
+	public redo(): void {
+		const state = this._redoHistory.pop();
+		this._undoHistory.push(state);
+		this._currentGameState.next(state);
+	}
 
 	public get selectedNumbers(): Observable<number[]> {
 		return this._selectedNumbers.asObservable();

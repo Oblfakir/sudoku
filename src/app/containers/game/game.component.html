@@ -1,6 +1,6 @@
 <div class="game">
 	<div class="game__field">
-		<app-sudoku *ngIf="sudoku" [sudoku]="sudoku"></app-sudoku>
+		<app-sudoku *ngIf="gameState | async" [sudoku]="gameState | async"></app-sudoku>
 	</div>
 	<div class="game__actions">
 		<app-actions-panel></app-actions-panel>

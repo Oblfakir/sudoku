@@ -13,13 +13,17 @@ export class SudokuComponent {
 	constructor(private gameService: GameService) {}
 
 	public cellClickedHandler(cell: SudokuCellModel): void {
-		if (!cell.isPredefined) {
+		const newState = JSON.parse(JSON.stringify(this.gameService.getCurrentGameState()));
+		const newCell = newState.reduce((r, i) => [...r, ...i], []).find(x => x.X === cell.X && x.Y === cell.Y);
+
+		if (!newCell.isPredefined) {
 			const selectedNumbers = this.gameService.getSelectedNumbers();
-			if (cell.values.find(x => selectedNumbers.includes(x))) {
-				cell.values = cell.values.filter(x => !selectedNumbers.includes(x));
-			} else {
-				cell.values = [...selectedNumbers, ...cell.values];
-			}
+
+			newCell.values = newCell.values.find(x => selectedNumbers.includes(x))
+				? newCell.values.filter(x => !selectedNumbers.includes(x))
+				: [...selectedNumbers, ...newCell.values];
 		}
+
+		this.gameService.setNewGameState(newState);
 	}
 }

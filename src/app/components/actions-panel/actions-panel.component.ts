@@ -16,15 +16,23 @@ export class ActionsPanelComponent implements OnInit {
 		return this.gameService.selectedNumbers;
 	}
 
+	public get isUndoAvailable(): boolean {
+		return this.gameService.isUndoAvailable;
+	}
+
+	public get isRedoAvailable(): boolean {
+		return this.gameService.isRedoAvailable;
+	}
+
 	public ngOnInit(): void {
 	}
 
 	public redoClickHandler(): void {
-
+		this.gameService.redo();
 	}
 
 	public undoClickHandler(): void {
-
+		this.gameService.undo();
 	}
 
 	public numberClickHandler(n: number): void {

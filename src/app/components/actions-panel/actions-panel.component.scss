@@ -59,6 +59,11 @@
 			background-color: rgba(#FF8000, 0.3);
 			color: #FF8000;
 		}
+
+		&_disabled {
+			opacity: 0.4;
+			pointer-events: none;
+		}
 	}
 
 

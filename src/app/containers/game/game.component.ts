@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {SudokuService} from '../../services';
 import {Difficulty} from '../../constants/difficulty';
 import {SudokuCellModel} from '../../models/sudoku-cell.model';
+import {GameService} from '../../services/game.service';
+import {Observable} from 'rxjs';
 
 @Component({
 	selector: 'app-game',
@@ -9,9 +11,12 @@ import {SudokuCellModel} from '../../models/sudoku-cell.model';
 	styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit {
-	public sudoku: SudokuCellModel[][];
+	public get gameState(): Observable<SudokuCellModel[][]> {
+		return this.gameService.currentGameState;
+	}
 
-	constructor(private sudokuService: SudokuService) {
+	constructor(private sudokuService: SudokuService,
+				private gameService: GameService) {
 	}
 
 	ngOnInit() {
@@ -34,7 +39,7 @@ export class GameComponent implements OnInit {
 					sudoku.push(subarr);
 				}
 
-				this.sudoku = sudoku;
+				this.gameService.setNewGameState(sudoku);
 			}
 		});
 	}
