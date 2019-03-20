@@ -1,11 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {GameService} from '../../services/game.service';
 import {Observable} from 'rxjs';
 
 @Component({
 	selector: 'app-actions-panel',
 	templateUrl: './actions-panel.component.html',
-	styleUrls: ['./actions-panel.component.scss']
+	styleUrls: ['./actions-panel.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActionsPanelComponent implements OnInit {
 	public numbers: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];

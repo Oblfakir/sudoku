@@ -12,6 +12,7 @@ export class GameService {
 	private _redoHistory: SudokuCellModel[][][] = [];
 	private _selectedNumbers: BehaviorSubject<number[]> = new BehaviorSubject<number[]>([]);
 	private _gameStatus: BehaviorSubject<string> = new BehaviorSubject<string>('');
+	private _lastSelectedNumber: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
 	constructor() {
 		this._currentGameState
@@ -25,6 +26,10 @@ export class GameService {
 				this._gameStatus.next(status);
 			}
 		});
+	}
+
+	public get lastSelectedNumber(): Observable<number> {
+		return this._lastSelectedNumber.asObservable();
 	}
 
 	public get gameStatus(): Observable<string> {
@@ -74,9 +79,14 @@ export class GameService {
 	}
 
 	public toggleNumber(n: number): void {
-		const selectedNumbers = this._selectedNumbers.getValue().includes(n)
-			? this._selectedNumbers.getValue().filter(x => x !== n)
-			: [...this._selectedNumbers.getValue(), n];
+		const currentNumbers = this._selectedNumbers.getValue();
+		const isNumberActive = currentNumbers.includes(n);
+
+		this._lastSelectedNumber.next(isNumberActive ? 0 : n);
+
+		const selectedNumbers = isNumberActive
+			? currentNumbers.filter(x => x !== n)
+			: [...currentNumbers, n];
 		this._selectedNumbers.next(selectedNumbers);
 	}
 

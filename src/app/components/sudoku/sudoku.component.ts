@@ -1,11 +1,12 @@
-import {Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {SudokuCellModel} from '../../models/sudoku-cell.model';
 import {GameService} from '../../services/game.service';
 
 @Component({
 	selector: 'app-sudoku',
 	templateUrl: './sudoku.component.html',
-	styleUrls: ['./sudoku.component.scss']
+	styleUrls: ['./sudoku.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SudokuComponent {
 	@Input() public sudoku: number[][];

@@ -16,6 +16,10 @@
 		font-weight: 700;
 	}
 
+	&_active {
+		background-color: yellow;
+	}
+
 	&__possible {
 		top: 0;
 		left: 0;
@@ -72,6 +76,10 @@
 				font-size: 12px;
 				font-weight: 400;
 				color: rgb(74,74,74);
+
+				&_active {
+					color: rgba(orangered, 0.5);
+				}
 			}
 		}
 	}
