@@ -20,7 +20,7 @@ export class GameService {
 	}
 
 	public get isUndoAvailable(): boolean {
-		return this._undoHistory.length > 0;
+		return this._undoHistory.length > 1;
 	}
 
 	public get isRedoAvailable(): boolean {
@@ -29,19 +29,19 @@ export class GameService {
 
 	public setNewGameState(state: SudokuCellModel[][]): void {
 		const newState = JSON.parse(JSON.stringify(state));
-		this._undoHistory.push(newState);
+		this._undoHistory.push(this._getCurrentGameStateCopy());
 		this._currentGameState.next(newState);
 	}
 
 	public undo(): void {
 		const state = this._undoHistory.pop();
-		this._redoHistory.push(state);
+		this._redoHistory.push(this._getCurrentGameStateCopy());
 		this._currentGameState.next(state);
 	}
 
 	public redo(): void {
 		const state = this._redoHistory.pop();
-		this._undoHistory.push(state);
+		this._undoHistory.push(this._getCurrentGameStateCopy());
 		this._currentGameState.next(state);
 	}
 
@@ -67,5 +67,9 @@ export class GameService {
 	public invertNumbers(): void {
 		const selectedNumbers = this.getSelectedNumbers();
 		this._selectedNumbers.next([1, 2, 3, 4, 5, 6, 7, 8, 9].filter(x => !selectedNumbers.includes(x)));
+	}
+
+	private _getCurrentGameStateCopy(): any {
+		return JSON.parse(JSON.stringify(this._currentGameState.getValue()));
 	}
 }
