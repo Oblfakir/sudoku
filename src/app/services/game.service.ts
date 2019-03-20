@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {SudokuCellModel} from '../models/sudoku-cell.model';
+import {filter} from 'rxjs/operators';
 
 @Injectable({
 	providedIn: 'root'
@@ -10,6 +11,25 @@ export class GameService {
 	private _undoHistory: SudokuCellModel[][][] = [];
 	private _redoHistory: SudokuCellModel[][][] = [];
 	private _selectedNumbers: BehaviorSubject<number[]> = new BehaviorSubject<number[]>([]);
+	private _gameStatus: BehaviorSubject<string> = new BehaviorSubject<string>('');
+
+	constructor() {
+		this._currentGameState
+			.pipe(
+				filter(x => !!x)
+			)
+			.subscribe((gameState: SudokuCellModel[][]) => {
+			const status = this._checkGameStatus(gameState);
+
+			if (status) {
+				this._gameStatus.next(status);
+			}
+		});
+	}
+
+	public get gameStatus(): Observable<string> {
+		return this._gameStatus.asObservable();
+	}
 
 	public get currentGameState(): Observable<SudokuCellModel[][]> {
 		return this._currentGameState.asObservable();
@@ -71,5 +91,53 @@ export class GameService {
 
 	private _getCurrentGameStateCopy(): any {
 		return JSON.parse(JSON.stringify(this._currentGameState.getValue()));
+	}
+
+	private _checkGameStatus(gameState: SudokuCellModel[][]): string {
+		let allCellsFilled = true;
+
+		for (let i = 0; i < 9; i++) {
+			for (let j = 0; j < 9; j++) {
+				if (gameState[i][i].values.length !== 1) {
+					allCellsFilled = false;
+				}
+
+				if (!allCellsFilled) {
+					break;
+				}
+			}
+
+			if (!allCellsFilled) {
+				break;
+			}
+		}
+
+		let sudokuValid = true;
+
+		if (allCellsFilled) {
+			for (let i = 0; i < 9; i++) {
+				for (let j = 0; j < 9; j++) {
+					const values = gameState[i][i].values;
+
+					if (values[0] !== gameState[i][i].trueValue) {
+						sudokuValid = false;
+					}
+
+					if (!sudokuValid) {
+						break;
+					}
+				}
+
+				if (!sudokuValid) {
+					break;
+				}
+			}
+		}
+
+		return allCellsFilled
+			? sudokuValid
+				? 'SUCCESS'
+				: 'FAILURE'
+			: '';
 	}
 }
