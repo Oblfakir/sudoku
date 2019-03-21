@@ -108,12 +108,8 @@ export class GameService {
 
 		for (let i = 0; i < 9; i++) {
 			for (let j = 0; j < 9; j++) {
-				if (gameState[i][i].values.length !== 1) {
+				if (gameState[i][j].values.length !== 1) {
 					allCellsFilled = false;
-				}
-
-				if (!allCellsFilled) {
-					break;
 				}
 			}
 
@@ -122,14 +118,18 @@ export class GameService {
 			}
 		}
 
+		if (!allCellsFilled) {
+			return '';
+		}
+
 		let sudokuValid = true;
 
 		if (allCellsFilled) {
 			for (let i = 0; i < 9; i++) {
 				for (let j = 0; j < 9; j++) {
-					const values = gameState[i][i].values;
+					const values = gameState[i][j].values;
 
-					if (values[0] !== gameState[i][i].trueValue) {
+					if (values[0] !== gameState[i][j].trueValue) {
 						sudokuValid = false;
 					}
 
@@ -144,10 +144,8 @@ export class GameService {
 			}
 		}
 
-		return allCellsFilled
-			? sudokuValid
-				? 'SUCCESS'
-				: 'FAILURE'
-			: '';
+		return sudokuValid
+			? 'SUCCESS'
+			: 'FAILURE';
 	}
 }
