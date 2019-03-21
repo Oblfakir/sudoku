@@ -23,6 +23,7 @@ export class GameComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
+		this._subscribeToGameStatus();
 		this.generateSudoku();
 	}
 

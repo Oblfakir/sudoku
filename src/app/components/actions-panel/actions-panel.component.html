@@ -14,7 +14,8 @@
 	<div class="actions-panel__numbers">
 		<button *ngFor="let n of numbers"
 				class="actions-panel__button actions-panel__button_number"
-				[ngClass]="{'actions-panel__button_active': (selectedNumbers | async).includes(n)}"
+				[ngClass]="{'actions-panel__button_active': (selectedNumbers | async).includes(n),
+							'actions-panel__button_filled': (filledNumbers | async).includes(n)}"
 				(mousedown)="numberClickHandler(n)">
 			{{n}}
 		</button>
