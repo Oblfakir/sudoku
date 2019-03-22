@@ -29,6 +29,15 @@
 		font-weight: 600;
 	}
 
+	&__refresh {
+		margin-top: auto;
+		border-radius: 3px;
+		padding: 5px;
+		font-size: 16px;
+		font-weight: 600;
+		margin-bottom: 5px;
+	}
+
 	&__refresh-button {
 		margin-top: 10px;
 		border-radius: 3px;

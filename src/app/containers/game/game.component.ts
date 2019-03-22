@@ -11,6 +11,8 @@ import {Observable} from 'rxjs';
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GameComponent implements OnInit {
+	public showModalScreen = false;
+
 	constructor(private sudokuService: SudokuService,
 				private gameService: GameService) {
 	}
@@ -29,6 +31,10 @@ export class GameComponent implements OnInit {
 		return this.gameService.currentGameState;
 	}
 
+	public showRefreshModal(): void {
+		this.showModalScreen = true;
+	}
+
 	public undoClickHandler(): void {
 		this.gameService.undo();
 	}
@@ -36,6 +42,7 @@ export class GameComponent implements OnInit {
 	public refreshClickHandler(): void {
 		this.gameService.refresh();
 		this._generateSudoku();
+		this.showModalScreen = false;
 	}
 
 	private _generateSudoku(): void {

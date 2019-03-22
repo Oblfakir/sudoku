@@ -6,16 +6,24 @@
 		<app-actions-panel></app-actions-panel>
 	</div>
 
+	<button (click)="showRefreshModal()" class="game__refresh">Refresh</button>
+
 	<div class="game__status" *ngIf="(gameStatus | async) === 'SUCCESS'">
 		Congratulations!
 
-		<button class="game__refresh-button">Refresh</button>
+		<button class="game__refresh-button" (click)="refreshClickHandler()">Refresh</button>
 	</div>
 
 	<div class="game__status" *ngIf="(gameStatus | async) === 'FAILURE'">
 		Sorry, solution is not correct.
 
-		<button class="game__refresh-button">Undo last action</button>
-		<button class="game__refresh-button">Refresh</button>
+		<button class="game__refresh-button" (click)="undoClickHandler()">Undo last action</button>
+		<button class="game__refresh-button" (click)="refreshClickHandler()">Refresh</button>
+	</div>
+
+	<div class="game__status" *ngIf="showModalScreen">
+		Refresh?
+
+		<button class="game__refresh-button" (click)="refreshClickHandler()">Refresh</button>
 	</div>
 </div>

@@ -20,11 +20,7 @@ export class GameService {
 				filter(x => !!x)
 			)
 			.subscribe((gameState: SudokuCellModel[][]) => {
-				const status = this._checkGameStatus(gameState);
-
-				if (status) {
-					this._gameStatus.next(status);
-				}
+				this._gameStatus.next(this._checkGameStatus(gameState));
 			});
 	}
 

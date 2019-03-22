@@ -8,6 +8,8 @@ import {GameComponent} from './containers/game/game.component';
 import { StartComponent } from './containers/start/start.component';
 import { SudokuCellComponent } from './components/sudoku-cell/sudoku-cell.component';
 import { ActionsPanelComponent } from './components/actions-panel/actions-panel.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
 	declarations: [
@@ -20,7 +22,8 @@ import { ActionsPanelComponent } from './components/actions-panel/actions-panel.
 	],
 	imports: [
 		BrowserModule,
-		AppRoutingModule
+		AppRoutingModule,
+		ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
 	],
 	providers: [],
 	bootstrap: [AppComponent]
