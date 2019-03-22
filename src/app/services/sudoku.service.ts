@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {Difficulty} from '../constants/difficulty';
 import {GeneratorService} from './generator.service';
 import {SolverService} from './solver.service';
 
@@ -11,7 +10,7 @@ export class SudokuService {
 				private solverService: SolverService) {
 	}
 
-	public getNewSudoku(difficulty: Difficulty): Promise<{ solved: number[][], unsolved: number[][] } | false> {
+	public getNewSudoku(difficulty: number): Promise<{ solved: number[][], unsolved: number[][] } | false> {
 		return new Promise((resolve) => {
 			const solved = this.generatorService.generateSudoku();
 			const flatSudoku = this._fieldToArray(solved);

@@ -1,9 +1,8 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {SudokuService} from '../../services';
-import {Difficulty} from '../../constants/difficulty';
 import {SudokuCellModel} from '../../models/sudoku-cell.model';
 import {GameService} from '../../services/game.service';
-import {Observable, Subscription} from 'rxjs';
+import {Observable} from 'rxjs';
 
 @Component({
 	selector: 'app-game',
@@ -11,24 +10,36 @@ import {Observable, Subscription} from 'rxjs';
 	styleUrls: ['./game.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GameComponent implements OnInit, OnDestroy {
-	private _subs: Subscription[] = [];
-
-	public get gameState(): Observable<SudokuCellModel[][]> {
-		return this.gameService.currentGameState;
-	}
-
+export class GameComponent implements OnInit {
 	constructor(private sudokuService: SudokuService,
 				private gameService: GameService) {
 	}
 
 	ngOnInit() {
-		this._subscribeToGameStatus();
-		this.generateSudoku();
+		setTimeout(() => {
+			this._generateSudoku();
+		});
 	}
 
-	public generateSudoku(): void {
-		this.sudokuService.getNewSudoku(Difficulty.Easy).then((result) => {
+	public get gameStatus(): Observable<'' | 'SUCCESS' | 'FAILURE'> {
+		return this.gameService.gameStatus;
+	}
+
+	public get gameState(): Observable<SudokuCellModel[][]> {
+		return this.gameService.currentGameState;
+	}
+
+	public undoClickHandler(): void {
+		this.gameService.undo();
+	}
+
+	public refreshClickHandler(): void {
+		this.gameService.refresh();
+		this._generateSudoku();
+	}
+
+	private _generateSudoku(): void {
+		this.sudokuService.getNewSudoku(50).then((result) => {
 			if (result) {
 				const sudoku = [];
 				const { solved, unsolved } = result;
@@ -46,18 +57,5 @@ export class GameComponent implements OnInit, OnDestroy {
 				this.gameService.setNewGameState(sudoku);
 			}
 		});
-	}
-
-	private _subscribeToGameStatus(): void {
-		const sub = this.gameService.gameStatus
-			.subscribe((status: string) => {
-				console.log(status);
-			});
-
-		this._subs.push(sub);
-	}
-
-	public ngOnDestroy(): void {
-		this._subs.forEach(sub => sub.unsubscribe());
 	}
 }

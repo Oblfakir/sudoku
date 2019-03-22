@@ -11,7 +11,7 @@ export class GameService {
 	private _undoHistory: SudokuCellModel[][][] = [];
 	private _redoHistory: SudokuCellModel[][][] = [];
 	private _selectedNumbers: BehaviorSubject<number[]> = new BehaviorSubject<number[]>([]);
-	private _gameStatus: BehaviorSubject<string> = new BehaviorSubject<string>('');
+	private _gameStatus: BehaviorSubject<'' | 'SUCCESS' | 'FAILURE'> = new BehaviorSubject<'' | 'SUCCESS' | 'FAILURE'>('');
 	private _lastSelectedNumber: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
 	constructor() {
@@ -20,19 +20,28 @@ export class GameService {
 				filter(x => !!x)
 			)
 			.subscribe((gameState: SudokuCellModel[][]) => {
-			const status = this._checkGameStatus(gameState);
+				const status = this._checkGameStatus(gameState);
 
-			if (status) {
-				this._gameStatus.next(status);
-			}
-		});
+				if (status) {
+					this._gameStatus.next(status);
+				}
+			});
+	}
+
+	public refresh(): void {
+		this._currentGameState.next(null);
+		this._undoHistory = [];
+		this._redoHistory = [];
+		this._selectedNumbers.next([]);
+		this._gameStatus.next('');
+		this._lastSelectedNumber.next(0);
 	}
 
 	public get lastSelectedNumber(): Observable<number> {
 		return this._lastSelectedNumber.asObservable();
 	}
 
-	public get gameStatus(): Observable<string> {
+	public get gameStatus(): Observable<'' | 'SUCCESS' | 'FAILURE'> {
 		return this._gameStatus.asObservable();
 	}
 
@@ -103,7 +112,7 @@ export class GameService {
 		return JSON.parse(JSON.stringify(this._currentGameState.getValue()));
 	}
 
-	private _checkGameStatus(gameState: SudokuCellModel[][]): string {
+	private _checkGameStatus(gameState: SudokuCellModel[][]): '' | 'SUCCESS' | 'FAILURE' {
 		let allCellsFilled = true;
 
 		for (let i = 0; i < 9; i++) {

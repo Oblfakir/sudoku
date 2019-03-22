@@ -26,15 +26,15 @@ class DoX {
 })
 export class SolverService {
 	public solveSudoku(unsolved: number[][]): Promise<number[][]> {
-		return new Promise((resolve) => {
-			let res = '';
+		let res = '';
 
-			for (let i = 0; i < 9; i++) {
-				for (let j = 0; j < 9; j++) {
-					res += unsolved[i][j];
-				}
+		for (let i = 0; i < 9; i++) {
+			for (let j = 0; j < 9; j++) {
+				res += unsolved[i][j];
 			}
+		}
 
+		return new Promise((resolve) => {
 			this.reduceGrid(res.split('0').join('.'), (r) => {
 				const result = [];
 
